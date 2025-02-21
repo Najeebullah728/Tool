@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Compress your PDF files online quickly and easily. Reduce PDF file size without losing quality.">
+    <meta name="keywords" content="PDF Compressor, Compress PDF, Reduce PDF Size, Online PDF Tool">
+    <meta name="author" content="Your Name">
+    <title>PDF Compressor - Compress PDF Files Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_AD_SENSE_ID" crossorigin="anonymous"></script>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+        }
+
+        header {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: fadeInDown 1s ease;
+        }
+
+        main {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 500px;
+            width: 90%;
+            animation: fadeInUp 1s ease;
+        }
+
+        #upload-section {
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            background: #fff;
+            color: #764ba2;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .custom-file-upload:hover {
+            background: #e0e0e0;
+        }
+
+        #compress-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #ff7eb3;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        #compress-btn:hover {
+            background: #ff3d80;
+        }
+
+        #result-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #download-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        #download-link:hover {
+            background: #218838;
+        }
+
+        footer {
+            margin-top: auto;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 0;
+            width: 100%;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>PDF Compressor</header>
+    <main>
+        <section id="upload-section">
+            <label for="pdf-file" class="custom-file-upload"><i class="fas fa-file-upload"></i> Choose PDF</label>
+            <input type="file" id="pdf-file" accept="application/pdf">
+            <button id="compress-btn"><i class="fas fa-compress"></i> Compress PDF</button>
+        </section>
+        <section id="ad-section">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-YOUR_AD_SENSE_ID" data-ad-slot="YOUR_AD_SLOT_ID" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </section>
+        <section id="result-section">
+            <h2>Compressed PDF</h2>
+            <a id="download-link" href="#" download><i class="fas fa-download"></i> Download</a>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 PDF Compressor. All rights reserved.</p>
+    </footer>
+    <script>
+        document.getElementById('compress-btn').addEventListener('click', function() {
+            const fileInput = document.getElementById('pdf-file');
+            if (fileInput.files.length === 0) {
+                alert('Please select a PDF file to compress.');
+                return;
+            }
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('pdf', file);
+
+            fetch('/compress-pdf', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                const downloadLink = document.getElementById('download-link');
+                downloadLink.href = url;
+                document.getElementById('result-section').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while compressing the PDF.');
+            });
+        });
+    </script>
+</body>
+</html>
