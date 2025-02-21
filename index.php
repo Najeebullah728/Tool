@@ -1,3 +1,7 @@
+<?php
+include 'navbar.php'; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,35 +30,6 @@
             background: var(--background);
             color: var(--text);
         }
-
-        .navbar {
-            background: var(--surface);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 500;
-            transition: color 0.3s;
-            margin: 0 1rem;
-        }
-
-        .nav-links a:hover { color: var(--primary); }
 
         .hero {
             padding: 8rem 2rem 4rem;
@@ -121,23 +96,12 @@
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; }
             .hero h1 { font-size: 2rem; }
             .tools-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">ToolKit Pro</div>
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="#tools">Tools</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
-
     <section class="hero">
         <h1>Transform Your Files with Ease</h1>
         <p>All-in-one solution for image and PDF processing</p>
@@ -198,11 +162,5 @@
     <footer class="footer">
         <p>&copy; 2025 ToolKit Pro. All Rights Reserved.</p>
     </footer>
-
-    <script>
-        window.addEventListener('scroll', () => {
-            document.querySelector('.navbar').style.boxShadow = window.scrollY > 50 ? '0 4px 12px rgba(0,0,0,0.1)' : 'none';
-        });
-    </script>
 </body>
 </html>
