@@ -131,7 +131,7 @@
     <nav class="navbar">
         <div class="logo">ToolKit Pro</div>
         <div class="nav-links">
-            <a href="#home">Home</a>
+            <a href="/">Home</a>
             <a href="#tools">Tools</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
