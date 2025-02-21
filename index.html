@@ -1,168 +1,303 @@
-<?php
-include "navbar.php";
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- SEO Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Toolkit - All-in-One File Solutions</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
+    <meta name="description" content="Toolkit Pro - All-in-one solution for image and PDF processing. Compress, convert, edit, and optimize your files easily.">
+    <meta name="keywords" content="image compressor, PDF tools, file conversion, text to speech, QR code generator, password generator">
+    <meta name="author" content="Toolkit Pro">
+    <meta property="og:title" content="Toolkit Pro - Free Online Tools">
+    <meta property="og:description" content="Compress, convert, and edit images & PDFs easily with Toolkit Pro.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolkitpro.netlify.app/">
+    <meta property="og:image" content="https://toolkitpro.netlify.app/thumbnail.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Toolkit Pro - Free Online Tools">
+    <meta name="twitter:description" content="Compress, convert, and edit images & PDFs easily with Toolkit Pro.">
+    <meta name="twitter:image" content="https://toolkitpro.netlify.app/thumbnail.jpg">
+    <title>Toolkit Pro - Free Online File & Image Tools</title>
+      <style>
         :root {
             --primary: #6366f1;
             --secondary: #4f46e5;
             --background: #f8fafc;
             --text: #1e293b;
             --surface: #ffffff;
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
             background: var(--background);
             color: var(--text);
+            line-height: 1.6;
         }
 
         .hero {
-            padding: 8rem 2rem 4rem;
+            padding: 6rem 2rem 4rem;
             text-align: center;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
         .search-bar {
             max-width: 600px;
             margin: 2rem auto;
-            display: flex;
-            align-items: center;
             background: white;
             border-radius: 50px;
-            padding: 0.5rem 1rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1.5rem;
         }
 
         .search-bar input {
-            width: 100%;
+            flex: 1;
             border: none;
             outline: none;
             padding: 0.75rem;
             font-size: 1rem;
+            background: transparent;
         }
 
-        .search-bar i { color: var(--primary); }
+        .search-bar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
 
-        .tools-section, .category-section {
+        .search-bar button:hover {
+            transform: scale(1.05);
+        }
+
+        .tools-section {
             max-width: 1200px;
             margin: 4rem auto;
             padding: 0 2rem;
-            text-align: center;
         }
 
-        .tools-grid, .category-grid {
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 2rem;
         }
 
-        .tool-card, .category-card {
+        .tool-card {
             background: var(--surface);
             padding: 2rem;
-            border-radius: 10px;
-            transition: transform 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
         }
 
-        .tool-card:hover, .category-card:hover { transform: translateY(-5px); }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
 
         .tool-icon {
             font-size: 2.5rem;
             color: var(--primary);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            width: 80px;
+            height: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .tool-card h3 {
+            margin: 1rem 0;
+            font-size: 1.25rem;
+        }
+
+        .tool-card p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-card a {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+
+        .tool-card a:hover {
+            background: var(--secondary);
         }
 
         .footer {
             background: var(--text);
             color: white;
             padding: 4rem 2rem;
-            margin-top: 4rem;
-            text-align: center;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .tools-grid { grid-template-columns: 1fr; }
+            .hero {
+                padding: 4rem 1rem 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
+  
 </head>
 <body>
-    <section class="hero">
+    <header class="hero">
         <h1>Transform Your Files with Ease</h1>
         <p>All-in-one solution for image and PDF processing</p>
         <div class="search-bar">
-            <input type="text" placeholder="Search for tools...">
-            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Find tools for compression, conversion, editing..." aria-label="Search tools">
+            <button type="button">Search</button>
         </div>
-    </section>
+    </header>
 
-    <section class="tools-section">
-        <h2>Popular Tools</h2>
-       <div class="tools-grid">
-    <div class="tool-card">
-        <a href="/image-compresser" target="_blank">
-            <i class="tool-icon fas fa-file-image"></i>
-            <h3>Image Compressor</h3>
-            <p>Reduce image size without losing quality</p>
-        </a>
-    </div>
-</div>
-
+    <main class="tools-section">
+        <section class="section-title">
+            <h2>Most Popular Tools</h2>
+            <p>Quick access to our most frequently used utilities</p>
+        </section>
+        <div class="tools-grid">
             <div class="tool-card">
-                <i class="tool-icon fas fa-exchange-alt"></i>
-                <h3>Image Converter</h3>
-                <p>Convert between JPG, PNG, WEBP formats</p>
+                <div class="tool-icon"><i class="fas fa-compress"></i></div>
+                <h3>Image Compressor</h3>
+                <p>Reduce image size without losing quality</p>
+                <a href="/image-compressor">Use Now →</a>
             </div>
             <div class="tool-card">
-                <i class="tool-icon fas fa-file-pdf"></i>
+                <div class="tool-icon"><i class="fas fa-sync-alt"></i></div>
+                <h3>Image Converter</h3>
+                <p>Convert images between different formats</p>
+                <a href="/image-converter">Use Now →</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon"><i class="fas fa-file-pdf"></i></div>
                 <h3>PDF Compressor</h3>
                 <p>Reduce PDF file size efficiently</p>
+                <a href="/pdf-compressor">Use Now →</a>
             </div>
             <div class="tool-card">
-                <i class="tool-icon fas fa-file-export"></i>
-                <h3>PDF to Word</h3>
-                <p>Convert PDF documents to editable Word files</p>
+                <div class="tool-icon"><i class="fas fa-microphone"></i></div>
+                <h3>Text to Speech</h3>
+                <p>Convert text into natural-sounding speech</p>
+                <a href="/text-to-speech">Use Now →</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon"><i class="fas fa-qrcode"></i></div>
+                <h3>QR Code Generator</h3>
+                <p>Generate custom QR codes easily</p>
+                <a href="/qr-code-generator">Use Now →</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon"><i class="fas fa-key"></i></div>
+                <h3>Password Generator</h3>
+                <p>Create secure, random passwords</p>
+                <a href="/password-generator">Use Now →</a>
             </div>
         </div>
-    </section>
-
-    <section class="category-section">
-        <h2>Categories</h2>
-        <div class="category-grid">
-            <div class="category-card">
-                <h3>Image Tools</h3>
-                <p>20+ specialized image processing tools</p>
-            </div>
-            <div class="category-card">
-                <h3>PDF Tools</h3>
-                <p>Complete PDF management toolkit</p>
-            </div>
-            <div class="category-card">
-                <h3>Documents</h3>
-                <p>File conversion & compression</p>
-            </div>
-        </div>
-    </section>
+    </main>
 
     <footer class="footer">
-        <p>&copy; 2025 ToolKit Pro. All Rights Reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Tool Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="/image-tools">Image Tools</a></li>
+                    <li><a href="/pdf-tools">PDF Tools</a></li>
+                    <li><a href="/conversion">Converters</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/security">Security</a></li>
+                </ul>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 3rem;">© 2025 ToolKit Pro. All Rights Reserved.</p>
     </footer>
 </body>
 </html>
-
