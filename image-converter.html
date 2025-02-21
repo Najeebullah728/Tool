@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert images to JPG, PNG, or WebP format easily with Image Converter Pro. Free online image conversion tool.">
+    <meta name="keywords" content="image converter, convert image, JPG, PNG, WebP, online image converter, free image converter">
+    <meta name="author" content="Image Converter Pro">
+    <meta property="og:title" content="Image Converter Pro - Free Online Image Conversion Tool">
+    <meta property="og:description" content="Convert images to JPG, PNG, or WebP format easily with Image Converter Pro. Free online image conversion tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolkitpro.netlify.app/">
+    <meta property="og:image" content="https://toolkitpro.netlify.app/">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Image Converter Pro - Free Online Image Conversion Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/@motion.dev/framer@latest/dist/framer.umd.min.js"></script>
+    
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 text-white min-h-screen flex flex-col items-center justify-center">
+    <div class="w-full max-w-2xl bg-white text-gray-900 rounded-xl shadow-2xl p-6 fade-in">
+        <h1 class="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-indigo-500 to-blue-500 text-transparent bg-clip-text">Image Converter Pro</h1>
+        <p class="text-center text-gray-600">Convert images to JPG, PNG, or WebP format easily.</p>
+
+        <div id="drop-zone" class="border-2 border-dashed border-gray-300 p-6 rounded-lg mt-4 text-center cursor-pointer hover:border-indigo-500 transition">
+            <p class="text-gray-500">Drag & Drop or Click to Upload an Image</p>
+            <input type="file" id="imageInput" accept="image/*" class="hidden">
+        </div>
+
+        <div class="mt-4 text-center">
+            <img id="previewImage" class="hidden max-w-full max-h-64 rounded-lg shadow-lg" />
+        </div>
+
+        <select id="formatSelect" class="block w-full mt-4 p-2 rounded-lg border-gray-300 focus:ring-indigo-500">
+            <option value="jpg">JPG</option>
+            <option value="png">PNG</option>
+            <option value="webp">WebP</option>
+        </select>
+
+        <button id="convertBtn" class="w-full bg-indigo-500 text-white py-2 rounded-lg mt-4 hover:bg-indigo-700 transition-transform transform hover:scale-105">Convert</button>
+        <a id="downloadLink" class="hidden text-center text-indigo-500 font-bold mt-4 block hover:underline">Download Converted Image</a>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('imageInput');
+        const convertBtn = document.getElementById('convertBtn');
+        const formatSelect = document.getElementById('formatSelect');
+        const downloadLink = document.getElementById('downloadLink');
+        const previewImage = document.getElementById('previewImage');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-indigo-500');
+        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-indigo-500'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-indigo-500');
+            fileInput.files = e.dataTransfer.files;
+            previewImageFile(fileInput.files[0]);
+        });
+
+        fileInput.addEventListener('change', () => {
+            previewImageFile(fileInput.files[0]);
+        });
+
+        function previewImageFile(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+                previewImage.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        convertBtn.addEventListener('click', function () {
+            if (fileInput.files.length === 0) {
+                alert('Please select an image to convert.');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const img = new Image();
+                img.src = e.target.result;
+                
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    
+                    canvas.toBlob(function (blob) {
+                        const url = URL.createObjectURL(blob);
+                        downloadLink.href = url;
+                        downloadLink.download = `converted-image.${formatSelect.value}`;
+                        downloadLink.style.display = 'block';
+                    }, `image/${formatSelect.value}`, 0.9);
+                };
+            };
+            
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
