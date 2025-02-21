@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert text to speech with high-quality voices and download audio in MP3 or WAV format. The best free online TTS tool.">
+    <meta name="keywords" content="text to speech, TTS, convert text to audio, speech synthesis, free TTS tool, download MP3">
+    <meta name="author" content="ToolkitPro">
+    <title>Best Text-to-Speech Converter | Free Online TTS with Download</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap">
+    <script data-ad-client="ca-pub-YOUR_AD_ID" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <link rel="canonical" href="https://toolkitpro.netlify.app/">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #134e5e, #71b280);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { font-size: 2.5rem; }
+        main {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        textarea {
+            width: 100%; height: 150px; padding: 15px;
+            border-radius: 10px; border: none;
+            resize: vertical; font-size: 1rem; margin-bottom: 20px;
+        }
+        .controls { display: flex; gap: 10px; justify-content: center; }
+        button, select {
+            padding: 12px 25px; border: none; border-radius: 8px;
+            cursor: pointer; font-size: 1rem;
+        }
+        button { background: linear-gradient(45deg, #ff512f, #dd2476); color: white; }
+        button:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ultimate Text-to-Speech Converter</h1>
+        <h2>Convert text into speech & download as MP3 or WAV</h2>
+    </header>
+    <main>
+        <label for="textInput">Enter Text:</label>
+        <textarea id="textInput" placeholder="Type your text here..."></textarea>
+        <div class="controls">
+            <label for="voiceSelect">Choose Voice:</label>
+            <select id="voiceSelect"></select>
+            <button id="speakBtn">Speak</button>
+            <button id="downloadBtn">Download</button>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const synth = window.speechSynthesis;
+            const textInput = document.getElementById('textInput');
+            const voiceSelect = document.getElementById('voiceSelect');
+            const speakBtn = document.getElementById('speakBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            let voices = [];
+            function populateVoices() {
+                voices = synth.getVoices();
+                voiceSelect.innerHTML = voices.map((voice, i) => `<option value="${i}">${voice.name} (${voice.lang})</option>`).join('');
+            }
+            populateVoices();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = populateVoices;
+            }
+            let mediaRecorder;
+            let audioChunks = [];
+            let stream;
+
+            speakBtn.addEventListener('click', () => {
+                const utterance = new SpeechSynthesisUtterance(textInput.value);
+                utterance.voice = voices[voiceSelect.value];
+                synth.speak(utterance);
+            });
+
+            downloadBtn.addEventListener('click', async () => {
+                if (!textInput.value.trim()) {
+                    alert('Please enter some text!');
+                    return;
+                }
+                stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const url = URL.createObjectURL(audioBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `tts-${Date.now()}.wav`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    alert('Audio downloaded successfully!');
+                };
+                
+                const utterance = new SpeechSynthesisUtterance(textInput.value);
+                utterance.voice = voices[voiceSelect.value];
+                utterance.onend = () => {
+                    mediaRecorder.stop();
+                };
+                synth.speak(utterance);
+            });
+        });
+    </script>
+</body>
+</html>
